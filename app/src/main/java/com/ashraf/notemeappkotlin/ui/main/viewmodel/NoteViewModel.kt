@@ -12,14 +12,16 @@ import com.ashraf.notemeappkotlin.data.repository.NoteRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class NoteViewModel(context: Context) : ViewModel() {
+class NoteViewModel(context: Context, status:String) : ViewModel() {
     val allNotes: LiveData<List<Note>>
     val repository: NoteRepository
+
 
     init {
         val dao = NoteDatabase.getDatabase(context).getNotesDao()
         repository = NoteRepository(dao)
-        allNotes = repository.allNotes
+        allNotes = repository.statuswiseNotes(status)
+
     }
 
     fun deleteNote(note: Note) = viewModelScope.launch(Dispatchers.IO) {

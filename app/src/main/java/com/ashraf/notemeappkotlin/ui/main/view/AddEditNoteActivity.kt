@@ -10,6 +10,7 @@ import com.ashraf.notemeappkotlin.R
 import com.ashraf.notemeappkotlin.data.model.Note
 import com.ashraf.notemeappkotlin.ui.main.viewmodel.NoteViewModel
 import com.ashraf.notemeappkotlin.ui.main.viewmodel.NoteViewModelFactory
+import com.ashraf.notemeappkotlin.utils.Constants
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -36,7 +37,7 @@ class AddEditNoteActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_edit_note)
-        factory=NoteViewModelFactory(this)
+        factory=NoteViewModelFactory(this,"")
         noteViewModel=ViewModelProvider(this, factory).get(NoteViewModel::class.java)
 
         etTaskName = findViewById(R.id.etTaskName)
@@ -74,7 +75,7 @@ class AddEditNoteActivity : AppCompatActivity() {
                 if (noteTitle.isNotEmpty() && noteDescription.isNotEmpty()) {
                     val sdf = SimpleDateFormat("dd MMM, yyyy - HH:mm")
                     val currentDateAndTime: String = sdf.format(Date())
-                    val updatedNote = Note(noteTitle, noteDescription, currentDateAndTime)
+                    val updatedNote = Note(noteTitle, noteDescription, currentDateAndTime, Constants.STATUS_TEST)
                     updatedNote.id = noteID
                     noteViewModel.updateNote(updatedNote)
                     Toast.makeText(this, "Note Updated..", Toast.LENGTH_LONG).show()
@@ -84,7 +85,7 @@ class AddEditNoteActivity : AppCompatActivity() {
                     val sdf = SimpleDateFormat("dd MMM, yyyy - HH:mm")
                     val currentDateAndTime: String = sdf.format(Date())
                     //if the string is not empty we are calling a add note method to add data to our room database.
-                    noteViewModel.addNote(Note(noteTitle, noteDescription, currentDateAndTime))
+                    noteViewModel.addNote(Note(noteTitle, noteDescription, currentDateAndTime,Constants.STATUS_IN_PROGRESS))
                     Toast.makeText(this, "$noteTitle Added", Toast.LENGTH_LONG).show()
                 }
             }

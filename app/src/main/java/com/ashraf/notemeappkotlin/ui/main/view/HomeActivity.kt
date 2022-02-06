@@ -11,6 +11,7 @@ import com.ashraf.notemeappkotlin.R
 import com.ashraf.notemeappkotlin.ui.main.adapter.FragmentViewPagerAdapter
 import com.ashraf.notemeappkotlin.ui.main.adapter.NoteRVAdapter
 import com.ashraf.notemeappkotlin.ui.main.viewmodel.NoteViewModel
+import com.ashraf.notemeappkotlin.utils.Constants
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -38,10 +39,10 @@ class HomeActivity : AppCompatActivity() {
 
         addFAB = findViewById(R.id.fab)
         val adapter = FragmentViewPagerAdapter(supportFragmentManager,lifecycle)
-        adapter.addFragment(NoteFragment(), getString(R.string.txt_open))
-        adapter.addFragment(NoteFragment(),getString(R.string.txt_in_progress))
-        adapter.addFragment(NoteFragment(),getString(R.string.txt_test))
-        adapter.addFragment(NoteFragment(), getString(R.string.txt_done))
+        adapter.addFragment(NoteFragment.newInstance(Constants.STATUS_OPEN), Constants.STATUS_OPEN)
+        adapter.addFragment(NoteFragment.newInstance(Constants.STATUS_IN_PROGRESS), Constants.STATUS_IN_PROGRESS)
+        adapter.addFragment(NoteFragment.newInstance(Constants.STATUS_TEST), Constants.STATUS_TEST)
+        adapter.addFragment(NoteFragment.newInstance(Constants.STATUS_DONE), Constants.STATUS_DONE)
         adapter.notifyDataSetChanged()
         viewPager=findViewById(R.id.viewPager)
         tabs=findViewById(R.id.tabs)

@@ -22,12 +22,27 @@ import com.ashraf.notemeappkotlin.ui.main.adapter.NoteClickInterface
 import com.ashraf.notemeappkotlin.ui.main.adapter.NoteRVAdapter
 import com.ashraf.notemeappkotlin.ui.main.viewmodel.NoteViewModel
 import com.ashraf.notemeappkotlin.ui.main.viewmodel.NoteViewModelFactory
+import com.ashraf.notemeappkotlin.utils.Constants
 
 
 class NoteFragment : Fragment() , NoteClickInterface, NoteClickDeleteInterface {
     lateinit var factory: NoteViewModelFactory
     lateinit var noteViewModel: NoteViewModel
     lateinit var notesRV: RecyclerView
+
+
+    companion object {
+        fun newInstance(status: String): NoteFragment {
+            val fragment = NoteFragment()
+            val bundle = Bundle().apply {
+                putString("status", status)
+            }
+            fragment.arguments = bundle
+            return fragment
+        }
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -41,9 +56,10 @@ class NoteFragment : Fragment() , NoteClickInterface, NoteClickDeleteInterface {
         val rootView:View =inflater.inflate(R.layout.fragment_note, container, false)
         notesRV=rootView.findViewById(R.id.notesRV)
         notesRV.layoutManager = LinearLayoutManager(context)
+        val status = arguments?.getString("status")
         val noteRVAdapter = context?.let { NoteRVAdapter(it, this, this) }
         notesRV.adapter = noteRVAdapter
-        factory=NoteViewModelFactory(requireContext())
+        factory=NoteViewModelFactory(requireContext(),status!!)
         noteViewModel=ViewModelProvider(this, factory).get(NoteViewModel::class.java)
         noteViewModel.allNotes.observe(viewLifecycleOwner, Observer { list ->
             list?.let {
