@@ -1,7 +1,6 @@
 package com.ashraf.notemeappkotlin.ui.main.view
 
 import android.content.Intent
-import android.graphics.ColorSpace
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -45,6 +44,22 @@ class AddEditNoteActivity : AppCompatActivity() {
         tvDeadLine = findViewById(R.id.tvDeadLine)
         tvTitle = findViewById(R.id.tvTitle)
         spStatus = findViewById(R.id.spStatus)
+
+        val stausList: MutableList<String> = ArrayList()
+        stausList.add(Constants.STATUS_OPEN)
+        stausList.add(Constants.STATUS_IN_PROGRESS)
+        stausList.add(Constants.STATUS_TEST)
+        stausList.add(Constants.STATUS_DONE)
+        val dataAdapter = ArrayAdapter(
+            this,
+            R.layout.spinner_dropdown_item, stausList
+        )
+        dataAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+
+        spStatus.adapter = dataAdapter
+
+
+
         btnDateSelect = findViewById(R.id.btnDateSelect)
 
         btnEmail = findViewById(R.id.btnEmail)
